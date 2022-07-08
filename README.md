@@ -50,6 +50,8 @@
         <Route path="*" element={<Navigate to="/" replace={true} />} />
         
 Отловливаем ошибки при получении данных с сервера 
+
+
 return async (dispatch) => {
     try {
       dispatch(setIsFetching(true));
