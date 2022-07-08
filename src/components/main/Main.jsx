@@ -5,6 +5,7 @@ import { getRepos } from "../actions/repos";
 import Repo from "./repo/Repo";
 import { setCurrentPage } from "../../reducers/reposReducer";
 import { createPages } from "../../utils/pagesCreator";
+import { Navigate } from "react-router-dom";
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -12,6 +13,7 @@ const Main = () => {
   const isFetching = useSelector((state) => state.repos.isFetching);
   const currentPage = useSelector((state) => state.repos.currentPage);
   const totalCount = useSelector((state) => state.repos.totalCount);
+  const isFetchError = useSelector((state) => state.repos.isFetchError);
   const perPage = useSelector((state) => state.repos.perPage);
   const [searchValue, setSearchValue] = useState("");
   const pagesCount = Math.ceil(totalCount / perPage);
@@ -33,8 +35,17 @@ const Main = () => {
       dispatch(getRepos(searchValue, currentPage, perPage));
     }
   };
+
+  // if (isFetchError) {
+  //   return <Navigate to="/error" replace={true} />;
+  // }
   return (
     <div>
+      {isFetchError && (
+        <div className="alert alert-danger" role="alert">
+          Error - произошла ошибка
+        </div>
+      )}
       <div className="search">
         <input
           onKeyPress={onKeyDown}
